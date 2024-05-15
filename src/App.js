@@ -1,14 +1,12 @@
-import DateFilter from "./components/Filter/DateFilter";
 import NewsList from "./components/News/NewsList";
-import SearchBar from "./components/Filter/SearchBar";
+import EntireFilter from "./components/Filter/EntireFilter";
 
 function App() {
   return (
-    <>
-      <SearchBar />
-      <DateFilter />
+    <div className="app-container">
+      <EntireFilter />
       <NewsList />
-    </>
+    </div>
   );
 }
 

@@ -1,7 +1,11 @@
 import React from "react";
 
 const DateFilter = () => {
-  return <div></div>;
+  return (
+    <form>
+      <input type="date" />
+    </form>
+  );
 };
 
 export default DateFilter;

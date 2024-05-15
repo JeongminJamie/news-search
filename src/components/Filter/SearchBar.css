@@ -1,0 +1,21 @@
+.search-bar--container {
+  display: flex;
+  align-items: center;
+  width: 40%;
+  height: 10%;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.search-bar--input {
+  width: 90%;
+  border: none;
+  outline: none;
+  font-size: 1.25rem;
+}
+
+svg {
+  width: 22px;
+  height: 22px;
+}
