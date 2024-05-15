@@ -1,0 +1,18 @@
+.date-filter--container {
+  display: flex;
+  align-items: center;
+  width: 40%;
+  height: 10%;
+  gap: 10px;
+}
+
+.date-filter--picker {
+  width: 15rem;
+  height: 2rem;
+  font-size: 1.1rem;
+}
+
+.calender-icon {
+  width: 30px;
+  height: 30px;
+}
