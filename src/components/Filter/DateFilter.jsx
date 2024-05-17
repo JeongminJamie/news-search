@@ -1,18 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import "./DateFilter.css";
+import { useDispatch } from "react-redux";
+import { newsActions } from "../../store/news-slice";
 
 const DateFilter = () => {
   const [date, setDate] = useState(new Date());
+  const dateRef = useRef(date);
+
+  const dispatch = useDispatch();
+
+  // convert the datepicker value to like new Date(news.publishedAt).toLocaleDateString() for comparison
+  const dateMDY = `${
+    date.getMonth() + 1
+  }/${date.getDate()}/${date.getFullYear()}`;
+
+  // handle DatePicker onChange
+  const dateChangeHandler = (date) => {
+    setDate(date);
+  };
+
+  // set dateFilteredNews state when the date converted has been changed
+  useEffect(() => {
+    dispatch(newsActions.dateFilterNews(dateMDY));
+  }, [dispatch, dateMDY]);
+
+  /* set the isDateFiltered state only when the date has been changed 
+  used useRef to store the initial date value and compare to the date modified
+   */
+  useEffect(() => {
+    if (dateRef.current !== date) {
+      dispatch(newsActions.checkDateFiltered(true));
+    }
+  }, [dispatch, date]);
 
   return (
     <div className="date-filter--container">
       <DatePicker
         className="date-filter--picker"
         selected={date}
-        onChange={(date) => setDate(date)}
+        onChange={dateChangeHandler}
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"

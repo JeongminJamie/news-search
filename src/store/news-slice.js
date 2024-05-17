@@ -5,7 +5,7 @@ export const fetchNewsData = () => {
     // fetch data with api
     const fetchData = async () => {
       const response = await fetch(
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-04-15&sortBy=publishedAt&apiKey=1fc542c3515443c1aaeeea95ae52f0cf"
+        "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=1fc542c3515443c1aaeeea95ae52f0cf"
       );
 
       // throw an error when failed to fetch
@@ -14,14 +14,14 @@ export const fetchNewsData = () => {
       }
 
       const newsData = await response.json();
-      console.log(newsData);
 
-      return newsData;
+      // get the array from newData (articles has an array of data)
+      return newsData.articles;
     };
 
     try {
-      const newsData = fetchData();
-      dispatch(newsActions.replaceNews(newsData));
+      const newsArticlesData = await fetchData();
+      dispatch(newsActions.replaceNews(newsArticlesData));
     } catch (error) {
       console.error(error.message);
     }
@@ -32,11 +32,23 @@ const newsSlice = createSlice({
   name: "news",
   initialState: {
     news: [],
+    isDateFiltered: false,
+    dateFilteredNews: [],
   },
   reducers: {
     replaceNews(state, action) {
-      // state.news = action.payload;
-      console.log(action.payload);
+      state.news = action.payload;
+    },
+    checkDateFiltered(state, action) {
+      state.isDateFiltered = action.payload;
+    },
+    dateFilterNews(state, action) {
+      const changedNewsByDate = state.news.filter(
+        (news) =>
+          new Date(news.publishedAt).toLocaleDateString() === action.payload
+      );
+
+      state.dateFilteredNews = changedNewsByDate;
     },
   },
 });
