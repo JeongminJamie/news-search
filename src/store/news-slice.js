@@ -47,7 +47,6 @@ const newsSlice = createSlice({
         (news) =>
           new Date(news.publishedAt).toLocaleDateString() === action.payload
       );
-
       state.dateFilteredNews = changedNewsByDate;
     },
   },
