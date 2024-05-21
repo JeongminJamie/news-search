@@ -1,10 +1,29 @@
 import React from "react";
 
 import "./SearchBar.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSearchData, searchActions } from "../../store/search-slice";
 
 const SearchBar = () => {
+  const searchBarWord = useSelector((state) => state.search.searchBarWord);
+  const dispatch = useDispatch();
+
+  // when search bar input changed
+  const searchChangeHandler = (e) => {
+    const searchBarWord = e.target.value;
+    dispatch(searchActions.setSearchBarWord(searchBarWord));
+  };
+
+  // when search bar entered
+  const searchSubmitHandler = (event) => {
+    event.preventDefault();
+    dispatch(fetchSearchData(searchBarWord));
+
+    dispatch(searchActions.isSearched(true));
+  };
+
   return (
-    <form className="search-bar--container">
+    <form className="search-bar--container" onSubmit={searchSubmitHandler}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -18,7 +37,13 @@ const SearchBar = () => {
         />
       </svg>
 
-      <input className="search-bar--input" type="text" placeholder="search" />
+      <input
+        className="search-bar--input"
+        type="text"
+        placeholder="search"
+        value={searchBarWord}
+        onChange={searchChangeHandler}
+      />
     </form>
   );
 };

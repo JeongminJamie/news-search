@@ -8,9 +8,8 @@ export const fetchNewsData = () => {
         "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=1fc542c3515443c1aaeeea95ae52f0cf"
       );
 
-      // throw an error when failed to fetch
       if (!response.ok) {
-        throw new Error("실패");
+        throw new Error("전체 뉴스 패치 실패");
       }
 
       const newsData = await response.json();
