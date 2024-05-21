@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const fetchSearchData = (searchedWord) => {
+// fetch data by searched word 
+export const fetchSearchData = (searchBarWord) => {
   return async (dispatch) => {
-    const fetchBySearchedWord = async () => {
+    const fetchBySearchBarWord = async () => {
       const response = await fetch(
-        `https://newsapi.org/v2/everything?domains=wsj.com&q=${searchedWord}&apiKey=1fc542c3515443c1aaeeea95ae52f0cf`
+        `https://newsapi.org/v2/everything?domains=wsj.com&q=${searchBarWord}&apiKey=1fc542c3515443c1aaeeea95ae52f0cf`
       );
 
       if (!response.ok) {
@@ -17,7 +18,7 @@ export const fetchSearchData = (searchedWord) => {
     };
 
     try {
-      const searchedData = await fetchBySearchedWord();
+      const searchedData = await fetchBySearchBarWord();
       dispatch(searchActions.replaceSearchedNews(searchedData));
     } catch (error) {
       console.error(error.message);
@@ -28,18 +29,19 @@ export const fetchSearchData = (searchedWord) => {
 const searchSlice = createSlice({
   name: "search",
   initialState: {
-    searchedWord: "",
+    searchBarWord: "",
+    isSearched: false,
     searchedNews: [],
   },
   reducers: {
-    setWord(state, action) {
-      state.searchedWord = action.payload;
+    setSearchBarWord(state, action) {
+      state.searchBarWord = action.payload;
+    },
+    isSearched(state, action) {
+      state.isSearched = action.payload;
     },
     replaceSearchedNews(state, action) {
       state.searchedNews = action.payload;
-    },
-    resetWord(state, action) {
-      state.searchedWord = "";
     },
   },
 });

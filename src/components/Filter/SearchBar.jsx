@@ -5,21 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSearchData, searchActions } from "../../store/search-slice";
 
 const SearchBar = () => {
-  const searchedWord = useSelector((state) => state.search.searchedWord);
+  const searchBarWord = useSelector((state) => state.search.searchBarWord);
   const dispatch = useDispatch();
 
   // when search bar input changed
   const searchChangeHandler = (e) => {
-    const searchedWord = e.target.value;
-    dispatch(searchActions.setWord(searchedWord));
+    const searchBarWord = e.target.value;
+    dispatch(searchActions.setSearchBarWord(searchBarWord));
   };
 
   // when search bar entered
   const searchSubmitHandler = (event) => {
     event.preventDefault();
-    dispatch(fetchSearchData(searchedWord));
+    dispatch(fetchSearchData(searchBarWord));
 
-    // dispatch(searchActions.resetWord());
+    dispatch(searchActions.isSearched(true));
   };
 
   return (
@@ -41,7 +41,7 @@ const SearchBar = () => {
         className="search-bar--input"
         type="text"
         placeholder="search"
-        value={searchedWord}
+        value={searchBarWord}
         onChange={searchChangeHandler}
       />
     </form>

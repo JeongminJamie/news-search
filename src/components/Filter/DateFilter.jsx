@@ -7,15 +7,10 @@ import { useDispatch } from "react-redux";
 import { newsActions } from "../../store/news-slice";
 
 const DateFilter = () => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState("");
   const dateRef = useRef(date);
 
   const dispatch = useDispatch();
-
-  // convert the datepicker value to like new Date(news.publishedAt).toLocaleDateString() for comparison
-  const dateMDY = `${
-    date.getMonth() + 1
-  }/${date.getDate()}/${date.getFullYear()}`;
 
   // handle DatePicker onChange
   const dateChangeHandler = (date) => {
@@ -24,15 +19,16 @@ const DateFilter = () => {
 
   // set dateFilteredNews state when the date converted has been changed
   useEffect(() => {
-    dispatch(newsActions.dateFilterNews(dateMDY));
-  }, [dispatch, dateMDY]);
-
-  /* set the isDateFiltered state only when the date has been changed 
-  used useRef to store the initial date value and compare to the date modified
-   */
-  useEffect(() => {
+    // check date selected
     if (dateRef.current !== date) {
+      
+      // convert the datepicker value to like new Date(news.publishedAt).toLocaleDateString() for comparison
+      const dateMDY = `${
+        date.getMonth() + 1
+      }/${date.getDate()}/${date.getFullYear()}`;
+
       dispatch(newsActions.checkDateFiltered(true));
+      dispatch(newsActions.dateFilterNews(dateMDY));
     }
   }, [dispatch, date]);
 
